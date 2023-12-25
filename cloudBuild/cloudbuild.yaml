@@ -1,4 +1,10 @@
 steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['app', 'deploy', 'cloudBuild/nodejs/app.yaml', '--project', '$PROJECT_ID']
+  secretEnv: ['BD_Pass', 'BD_ConnString']
+  env:
+  - 'Storage_Conn=random-conn-string'
+  - 'Kv_Conn=another-random-conn-string'
 
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'gcr.io/$PROJECT_ID/nginx-arroyo-app', 'cloudBuild/docker/']
@@ -6,3 +12,9 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/nginx-arroyo-app']
 
+availableSecrets:
+  secretManager:
+  - versionName: projects/191099355239/secrets/dbconn/versions/1
+    env: 'BD_ConnString'
+  - versionName: projects/191099355239/secrets/dbpass/versions/1
+    env: 'BD_Pass'
