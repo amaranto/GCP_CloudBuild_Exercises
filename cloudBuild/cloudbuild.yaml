@@ -1,5 +1,8 @@
 steps:
 - name: 'gcr.io/cloud-builders/gcloud'
+  args: ['compute', 'snapshots', 'create', 'gce-image-vm1', '--source-disk', 'vm1-s4rv', '--source-disk-zone','us-central1-a', '--project', '$PROJECT_ID']
+
+- name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'cloudBuild/nodejs/app.yaml', '--project', '$PROJECT_ID']
   secretEnv: ['BD_Pass', 'BD_ConnString']
   env:
@@ -11,6 +14,8 @@ steps:
 
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/nginx-arroyo-app']
+
+images: ['gcr.io/$PROJECT_ID/gce-image-vm1']
 
 availableSecrets:
   secretManager:
