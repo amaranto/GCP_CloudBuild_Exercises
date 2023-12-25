@@ -4,8 +4,10 @@ resource "google_container_registry" "registry" {
 }
 
 resource "google_storage_bucket_iam_member" "viewer" {
-  for_each = var.project_users
+  for_each = toset(var.project_users)
   bucket = google_container_registry.registry.id
   role = "roles/storage.objectViewer"
   member = "user:${each.value}"
 }
+
+

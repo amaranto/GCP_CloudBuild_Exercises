@@ -13,6 +13,6 @@ variable gcr {
 }
 
 variable project_users {
-    type = list[string]
+    type = list
     default = []
 }

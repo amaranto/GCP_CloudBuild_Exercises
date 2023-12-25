@@ -35,23 +35,18 @@ resource "google_project_iam_member" "project" {
 }
 
 resource "google_project_iam_member" "project_viewer" {
-  for_each = { 
-    for idx, user in var.project_editor_users :
-    user.email => user
-  }
+  for_each = toset(var.project_editor_users)
   project = var.project_id
   role    = "roles/viewer"
-  member  = "user:${each.value.email}"
+  member  = "user:${each.value}"
 }
 
 resource "google_project_iam_member" "project_editor" {
-  for_each = { 
-    for idx, user in var.project_editor_users :
-    user.email => user
-  }
+  for_each = toset(var.project_editor_users)
+
   project = var.project_id
   role    = "roles/editor"
-  member  = "user:${each.value.email}"
+  member  = "user:${each.value}"
 }
 
 resource "google_compute_instance_template" "ej1" {
