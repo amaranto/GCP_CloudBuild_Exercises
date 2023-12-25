@@ -1,6 +1,6 @@
 steps:
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'images', 'create', 'gce-image-vm1', '--source-disk', 'vm1-s4rv', '--source-disk-zone','us-central1-a', '--project', '$PROJECT_ID']
+  args: ['compute', 'snapshots', 'create', 'gce-image-vm1', '--source-disk', 'vm1-s4rv', '--source-disk-zone','us-central1-a', '--project', '$PROJECT_ID']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'cloudBuild/nodejs/app.yaml', '--project', '$PROJECT_ID']
